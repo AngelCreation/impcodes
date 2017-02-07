@@ -1,0 +1,79 @@
+private boolean turnOnLocation(String message){
+        //check location is off? ask to turn on
+        int off = 0;
+        try {
+            off = Settings.Secure.getInt(getActivity().getContentResolver(), Settings.Secure.LOCATION_MODE);
+        } catch (Settings.SettingNotFoundException e) {
+            e.printStackTrace();
+        }
+        if(off==0){
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
+            builder1.setMessage(message);
+            builder1.setCancelable(true);
+
+            builder1.setPositiveButton(
+                    "Settings",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                            Intent onGPS = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                            startActivity(onGPS);
+                        }
+                    });
+            builder1.setNegativeButton(
+                    "Cancel",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+
+            AlertDialog alert11 = builder1.create();
+            alert11.show();
+        }
+        return true;
+    }
+    
+    
+    
+    
+private String getCompleteAddressString(double LATITUDE, double LONGITUDE) {
+         String strAdd = "";
+         Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
+         try {
+             List<Address> addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1);
+             if (addresses != null) {
+                 Address returnedAddress = addresses.get(0);
+                 StringBuilder strReturnedAddress = new StringBuilder("");
+
+                 for (int i = 0; i < returnedAddress.getMaxAddressLineIndex(); i++) {
+                     strReturnedAddress.append(returnedAddress.getAddressLine(i)).append("\n");
+                 }
+                 strAdd = strReturnedAddress.toString();
+             } else {
+ //                Log.w("My Current loction address", "No Address returned!");
+             }
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+         return strAdd;
+     }
+     
+     
+
+    private String getCityname(double LATITUDE, double LONGITUDE) {
+        String strAdd = "";
+        Geocoder gcd = new Geocoder(getActivity(), Locale.getDefault());
+        List<Address> addresses = null;
+        try {
+            addresses = gcd.getFromLocation(LATITUDE, LONGITUDE, 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (addresses.size() > 0)
+        {
+//            return addresses.get(0).getSubLocality();
+            return addresses.get(0).getLocality();
+        }
+        return null;
+    }
