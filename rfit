@@ -1,0 +1,198 @@
+//API
+
+import com.samyak.shareacar.Models.CarInfoBean;
+import com.samyak.shareacar.Models.PostRideBean;
+import com.samyak.shareacar.Models.RideInfoBean;
+import com.samyak.shareacar.Models.UserInfoBean;
+import com.samyak.shareacar.Models.UserRideInfoBean;
+
+import java.util.List;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.POST;
+
+public interface ShareACarApi {
+
+    @FormUrlEncoded
+    @POST("entities.userinfo/login")
+    Call<ResponseBody> sendLoginInfo(@Field("email") String first,
+                                     @Field("password") String last,
+                                     @Field("userType") String user);
+
+    @FormUrlEncoded
+    @POST("entities.userinfo/register")
+    Call<ResponseBody> sendRegisterInfo(@Field("password") String first,
+                                        @Field("firstName") String firstName,
+                                        @Field("lastName") String lastName,
+                                        @Field("email") String email,
+                                        @Field("mobileNo") String mobileNo,
+                                        @Field("userType") String user);
+
+    @FormUrlEncoded
+    @POST("entities.userinfo/forgotPassword")
+    Call<ResponseBody> forgotPass(@Field("email") String first);
+
+    @POST("entities.userinfo/getRate")
+    Call<ResponseBody> getRate();
+
+    @FormUrlEncoded
+    @POST("entities.userinfo/addUpdateCarInfo")
+    Call<ResponseBody> addUpdateCarInfo(@Field("userId") String userId,
+                                        @Field("carName") String carName,
+                                        @Field("carCompany") String carCompany,
+                                        @Field("carYear") String carYear,
+                                        @Field("carType") String carType,
+                                        @Field("fuelType") String fuelType);
+
+    @FormUrlEncoded
+    @POST("entities.userinfo/updatePassword")
+    Call<ResponseBody> updatePassword(@Field("userId") String userId,
+                                      @Field("curPassword") String curPassword,
+                                      @Field("newPassword") String newPassword);
+
+    @FormUrlEncoded
+    @POST("entities.userinfo/findRide")
+    Call<List<UserRideInfoBean>> findRide(@Field("userId") String userId,
+                                      @Field("startCity") String startCity,
+                                      @Field("destCity") String destCity,
+                                      @Field("rideDate") String rideDate);
+
+    @FormUrlEncoded
+    @POST("entities.userinfo/getUserRide1")
+    Call<List<UserRideInfoBean>> getUserRide(@Field("userId") String userId);
+
+    @FormUrlEncoded
+    @POST("entities.userinfo/updateUserInfo")
+    Call<ResponseBody> updateUserInfo(@Field("userId") String userId,
+                                      @Field("firstName") String firstName,
+                                      @Field("lastName") String lastName,
+                                      @Field("email") String email,
+                                      @Field("mobileNo") String mobileNo);
+
+    @FormUrlEncoded
+    @POST("entities.userinfo/getCarInfo")
+    Call<CarInfoBean> getCarInfo(@Field("userId") String userId);
+
+    @POST("entities.userinfo/postRide1")
+    Call<ResponseBody> addRide(@Body PostRideBean rideInfo);
+
+    @POST("entities.userinfo/postRideDaily")
+    Call<ResponseBody> postRideDaily(@Body PostRideBean rideInfo);
+
+    @FormUrlEncoded
+    @POST("entities.userinfo/getUserInfo")
+    Call<UserInfoBean> getUserInfo(@Field("userId") String userId);
+
+    @FormUrlEncoded
+    @POST("entities.userinfo/updateRide")
+    Call<ResponseBody> updateRide(@Field("rideId") String rideId,
+                                  @Field("date") String date,
+                                  @Field("time") String time,
+                                  @Field("pricePerPerson") String pricePerPerson,
+                                  @Field("noOfPersonAvailable") String noOfPersonAvailable,
+                                  @Field("rideMessage") String rideMessage,
+                                  @Field("finalRates") String finalRates);
+
+    @FormUrlEncoded
+    @POST("entities.userinfo/deleteRide")
+    Call<ResponseBody> deleteRide(@Field("rideId") String rideId);
+
+    @FormUrlEncoded
+    @POST("entities.userinfo/deleteStopage")
+    Call<ResponseBody> deleteStopage(@Field("stopageId") String stopageId);
+
+}
+
+
+
+//API Service
+
+import android.content.Context;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
+import retrofit2.Retrofit;
+import retrofit2.converter.jackson.JacksonConverterFactory;
+
+public class ShareACarApiService {
+
+    ShareACarApi shareACarApi;
+    Context context;
+//    String BASE_URL = "http://glrinfo.com:6090/ShareMyCarWebService/webresources/";       //live
+    String BASE_URL = "http://10.100.112.71:6090/ShareMyCarWebService/webresources/";    //Kushal Pc
+
+    public ShareACarApiService(Context context) {
+        this.context = context;
+        OkHttpClient client = null;
+
+        client = new OkHttpClient.Builder()
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(120, TimeUnit.SECONDS)
+//                .addNetworkInterceptor(new StethoInterceptor()) //stetho
+                .build();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(JacksonConverterFactory.create())
+                .client(client)
+                .build();
+        shareACarApi = retrofit.create(ShareACarApi.class);
+    }
+
+    public ShareACarApi getShareACarApi() {
+        return shareACarApi;
+    }
+}
+
+
+//usage
+
+call = new ShareACarApiService(getActivity()).getShareACarApi().forgotPass(email);
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if ((progress != null) && progress.isShowing()) {
+                        progress.dismiss();
+                    }
+                    if (response.code() == 200) {
+                        try {
+                            result = response.body().string();
+                            checkForgotPass(view);
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+
+                        TSnackbar snackbar = TSnackbar
+                                .make(view, "Can't connect to server", TSnackbar.LENGTH_LONG);
+                        snackbar.setActionTextColor(Color.WHITE);
+                        View snackbarView = snackbar.getView();
+                        snackbarView.setBackgroundColor(Color.parseColor("#df013A"));
+                        TextView textView = (TextView) snackbarView.findViewById(com.androidadvance.topsnackbar.R.id.snackbar_text);
+                        textView.setTextColor(Color.WHITE);
+                        textView.setTypeface(Typeface.DEFAULT_BOLD);
+                        snackbar.show();
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    if ((progress != null) && progress.isShowing()) {
+                        progress.dismiss();
+                    }
+                    TSnackbar snackbar = TSnackbar
+                            .make(view, "Please Check Your Connection", TSnackbar.LENGTH_LONG);
+                    snackbar.setActionTextColor(Color.WHITE);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(Color.parseColor("#df013A"));
+                    TextView textView = (TextView) snackbarView.findViewById(com.androidadvance.topsnackbar.R.id.snackbar_text);
+                    textView.setTextColor(Color.WHITE);
+                    textView.setTypeface(Typeface.DEFAULT_BOLD);
+                    snackbar.show();
+                }
+            });
