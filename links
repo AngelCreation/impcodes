@@ -50,6 +50,104 @@ https://www.mkyong.com/webservices/jax-rs/restfull-java-client-with-java-net-url
 send multipert data from client through retrofit
 http://stackoverflow.com/questions/34562950/post-multipart-form-data-using-retrofit-2-0-including-image
 
+get sdcard in android till Nougut:
+https://stackoverflow.com/questions/36766016/how-to-get-sd-card-path-in-android6-0-programmatically/40205116#40205116 
+Method:  public String[] getExternalStorageDirectories() {
+        List<String> results = new ArrayList<>();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) { //Method 1 for KitKat & above
+            File[] externalDirs = getActivity().getExternalFilesDirs(null);
+            for (File file : externalDirs) {
+                String path = file.getPath().split("/Android")[0];
+                boolean addPath = false;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    addPath = Environment.isExternalStorageRemovable(file);
+                } else {
+                    addPath = Environment.MEDIA_MOUNTED.equals(EnvironmentCompat.getStorageState(file));
+                }
+                if (addPath) {
+                    results.add(path);
+                }
+            }
+        }
+        if (results.isEmpty()) { //Method 2 for all versions
+            // better variation of: http://stackoverflow.com/a/40123073/5002496
+            String output = "";
+            try {
+                final Process process = new ProcessBuilder().command("mount | grep /dev/block/vold")
+                        .redirectErrorStream(true).start();
+                process.waitFor();
+                final InputStream is = process.getInputStream();
+                final byte[] buffer = new byte[1024];
+                while (is.read(buffer) != -1) {
+                    output = output + new String(buffer);
+                }
+                is.close();
+            } catch (final Exception e) {
+                e.printStackTrace();
+            }
+            if (!output.trim().isEmpty()) {
+                String devicePoints[] = output.split("\n");
+                for (String voldPoint : devicePoints) {
+                    results.add(voldPoint.split(" ")[2]);
+                }
+            }
+        }
+        //Below few lines is to remove paths which may not be external memory card, like OTG (feel free to comment them out)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            for (int i = 0; i < results.size(); i++) {
+                if (!results.get(i).toLowerCase().matches(".*[0-9a-f]{4}[-][0-9a-f]{4}")) {
+//                    Log.d("", results.get(i) + " might not be extSDcard");
+                    results.remove(i--);
+                }
+            }
+        } else {
+            for (int i = 0; i < results.size(); i++) {
+                if (!results.get(i).toLowerCase().contains("ext") && !results.get(i).toLowerCase().contains("sdcard")) {
+//                    Log.d(LOG_TAG, results.get(i)+" might not be extSDcard");
+                    results.remove(i--);
+                }
+            }
+        }
+        String[] storageDirectories = new String[results.size()];
+        for (int i = 0; i < results.size(); ++i) storageDirectories[i] = results.get(i);
+        return storageDirectories;
+    }
+	\\not 100% working
+sp tutorial
+http://www.mysqltutorial.org/mysql-stored-procedure-tutorial.aspx
+
+//kushal bookmarks
+Smart way to use retrofit
+https://blog.robinchutaux.com/blog/a-smart-way-to-use-retrofit/
+
+privacy policy for mobile app
+https://termsfeed.com/blog/privacy-policy-mobile-apps/
+
+map isssue
+https://stackoverflow.com/questions/14083950/duplicate-id-tag-null-or-parent-id-with-another-fragment-for-com-google-androi
+
+multithreading
+https://www.javatpoint.com/multithreading-in-java
+
+google hosted libraries
+https://developers.google.com/speed/libraries/#jquery-mobile
+
+apache http client for android
+http://hc.apache.org/httpcomponents-client-4.5.x/android-port.html
+
+package java app
+http://aparna-java.blogspot.in/2012/02/packaging-and-deploying-desktop-java.html
+
+place autocomplete
+http://www.techstricks.com/custom-google-place-autocomplete-android/
+
+make installer with mysql for java app
+https://stackoverflow.com/questions/16085645/making-installer-for-java-application-with-mysql-database
+
+crossplatform java executable wrapper
+http://launch4j.sourceforge.net/
+
+
 
 
 
