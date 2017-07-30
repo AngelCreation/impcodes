@@ -1,0 +1,9 @@
+Generate Open SSL Certificate(Guidence to generate certificate):openssl link: https://www.faqforge.com/windows/use-openssl-on-windows/
+
+Get Hash Key:
+https://stackoverflow.com/questions/4388992/key-hash-for-android-facebook-app
+
+Command:
+keytool -exportcert -alias androiddebugkey -keystore C:\Users\SVF 15213\.android\debug.keystore | G:\Softy\Openssl\bin\openssl sha1 -binary | G:\Softy\Openssl\bin\openssl base64
+
+--However this will generate wrong hashkey,Get hash key in app and enter on developers.facebook.com
