@@ -147,6 +147,56 @@ https://stackoverflow.com/questions/16085645/making-installer-for-java-applicati
 crossplatform java executable wrapper
 http://launch4j.sourceforge.net/
 
+Learn Constraint Layout
+https://www.captechconsulting.com/blogs/starting-out-with-constraint-layout-and-android-studios-visual-editor
+
+//login with fb
+http://androidbash.com/firebase-classic-email-login-facebook-login-android/
+
+//change fonts in android
+https://stackoverflow.com/questions/2711858/is-it-possible-to-set-a-custom-font-for-entire-of-application/16883281#16883281
+
+//set title and subtitle in collepsing toolbar
+https://github.com/saulmm/CoordinatorBehaviorExample
+
+//make list of objects categorywise for service
+https://stackoverflow.com/questions/21678430/group-a-list-of-objects-by-an-attribute-java
+
+//show hints in android app
+https://github.com/amlcurran/ShowcaseView
+
+//fonts in android
+http://tekeye.uk/android/examples/android-textview-edittext-font
+
+//customized place autocomplete
+https://stackoverflow.com/questions/36999647/how-to-customize-placeautocomplete-widget-dialog-design-to-list-places
+
+//change parse date format in javascript
+Use library moment.js
+
+//learn Lambda Expressions java-8
+http://tutorials.jenkov.com/java/lambda-expressions.html
+
+//streams java-8
+http://tutorials.jenkov.com/java-collections/streams.html
+
+//android UI components
+https://www.sketchappsources.com/tag/android.html
+
+//what is java ee
+https://stackoverflow.com/questions/106820/what-is-java-ee
+https://stackoverflow.com/questions/7295096/what-exactly-is-java-ee
+
+//format date with mySQL
+https://davidwalsh.name/format-date-mysql-date_format
+
+//studio gradle multiple versions error
+https://stackoverflow.com/questions/42374151/all-com-android-support-libraries-must-use-the-exact-same-version-specification
+
+//java could not reserve enough space for object heap
+https://stackoverflow.com/questions/18040361/java-could-not-reserve-enough-space-for-object-heap-error		or change in this file:  studio64.exe.vmoptions
+
+
 
 
 
