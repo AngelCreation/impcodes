@@ -1,0 +1,15 @@
+Apache Server
+
+URLs - Uniform Resource Locators
+
+URL specifies	->	protocol (e.g. http), a servername (e.g. www.apache.org), a URL-path (e.g. /docs/current/getting-started.html), and 	possibly a query string (e.g. ?arg=value) used to pass additional arguments to the server
+
+Hostnames and DNS
+In order to connect to a server, the client will first have to resolve the servername to an IP address - the location on the Internet where the server resides. Thus, in order for your web server to be reachable, it is necessary that the servername be in DNS.
+
+More than one hostname may point to the same IP address, and more than one IP address can be attached to the same physical server. Thus, you can run more than one web site on the same physical server, using a feature called virtual hosts.
+
+Virtual Hosts
+The term Virtual Host refers to the practice of running more than one web site (such as company1.example.com and company2.example.com) on a single machine
+Types:	IP-based  -> different IP for every Web-site, 
+		Name-based(host-based, non-ip)  -> different name for every Web-site on same IP
