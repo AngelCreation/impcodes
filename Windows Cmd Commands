@@ -1,0 +1,19 @@
+windows commands: 
+start mysql command:  
+
+cd GLR
+cd mysql
+cd bin
+mysqld-nt.exe --defaults-file="..\..\..\my.ini"
+
+
+run sql script from cmd:
+
+mysql.exe -u glr -pglr -P 10500  < trucatetables.sql
+
+update data script
+
+cd\ 
+cd /d %1%   
+cd UpdateDatabase
+mysql.exe -u glr -pglr -P 10500 udata <  %2%
